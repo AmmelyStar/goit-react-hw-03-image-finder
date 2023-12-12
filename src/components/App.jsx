@@ -77,9 +77,8 @@ class App extends Component {
       searchName: searchQuery,
       images: [], 
       currentPage: 1, 
-    }, () => {
-      this.fetchData(); 
-    });
+    }
+);
   };
 
     loadMore = () => {
