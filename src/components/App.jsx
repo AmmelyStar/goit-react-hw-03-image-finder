@@ -1,6 +1,6 @@
 import 'style.module.css'
 import axios from "axios";
-import SearchBar from './SearchBar/SearchBar'
+import SearchBar from './Searchbar/Searchbar'
 import  { Component } from 'react';
 import ImageGallery from "./ImageGallery/ImageGallery";
 import Button from "./Button/Button";
