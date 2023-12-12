@@ -1,22 +1,26 @@
-import css from './style.module.css'
+import css from "./style.module.css"
 import { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class SearchBar extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      searchTerm: '',
-    };
-  }
-
-  handleSubmit = (event) => {
-    event.preventDefault();
-    this.props.onSubmit(this.state.searchTerm);
+  state = {
+    searchName: '', 
+    inputValue: '',
   };
 
-  handleChange = (event) => {
-    this.setState({ searchTerm: event.target.value });
+    handleChange = event => {
+    this.setState({ inputValue: event.target.value });
   };
+
+   handleSubmit = event => {
+    event.preventDefault(); 
+    const searchQuery = this.state.inputValue.trim(); 
+    this.props.onSubmit(searchQuery); 
+     
+     this.setState({ inputValue: '' });
+  };
+
+  
 
   render() {
     return (
@@ -31,8 +35,9 @@ class SearchBar extends Component {
             type="text"
             autoComplete="off"
             autoFocus
+            name="searchName"
             placeholder="Search images and photos"
-            value={this.state.searchTerm}
+            value={this.state.inputValue}
             onChange={this.handleChange}
           />
         </form>
@@ -40,5 +45,9 @@ class SearchBar extends Component {
     );
   }
 }
+
+SearchBar.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};
 
 export default SearchBar;

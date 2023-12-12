@@ -1,17 +1,32 @@
-import css from './style.module.css'; 
+import css from "./style.module.css"
+import PropTypes from 'prop-types'; 
+import ImageGalleryItem from '../ImageGalleryItem/ImageGalleryItem';
+import { nanoid } from 'nanoid';
 
 const ImageGallery = ({ images }) => {
-  const galleryItems = [];
+  return (
+    <>
+       <ul className={css.gallery}>
+          {images.map(image => (
+              <ImageGalleryItem key={nanoid()} image={image} />
+            
+          ))}
+        </ul>
+    
+    </>
+    
+  )
 
-  images.forEach((image) => {
-    galleryItems.push(
-      <li key={image.id}>
-        <img src={image.smallImageUrl} alt={`Image ${image.id}`} className={css.galleryImage} />
-      </li>
-    );
-  });
 
-  return <ul className={css.gallery}>{galleryItems}</ul>;
+};
+
+
+ImageGallery.propTypes = {
+  images: PropTypes.arrayOf(
+    PropTypes.shape({
+      
+    })
+  ).isRequired,
 };
 
 export default ImageGallery;

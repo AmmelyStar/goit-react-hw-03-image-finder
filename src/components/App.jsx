@@ -1,67 +1,96 @@
-// import ImageGallery from './ImageGallery';
+import 'style.module.css'
 import axios from "axios";
 import SearchBar from './Searchbar/Searchbar'
 import  { Component } from 'react';
 import ImageGallery from "./ImageGallery/ImageGallery";
+import Button from "./Button/Button";
 
-const q = 'cat';
+
 const perPage = 12;
-let currentPage = 1; 
-
 const KEY = '40311007-381e26539f6c0a156243500cd';
-const URL = `https://pixabay.com/api/?q=${q}&page=${currentPage}&key=${KEY}&image_type=photo&orientation=horizontal&per_page=${perPage}`;
+
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      searchTerm: '',
+  
+    state = {
+      searchName: '',
       images: [],
+      currentPage: 1, 
     };
+  
+  componentDidUpdate(_, prevState) {
+    
+    if (
+      prevState.searchName !== this.state.searchName ||
+      prevState.currentPage !== this.state.currentPage
+    ) {
+      this.fetchData(); 
+    }
   }
-
-  componentDidMount() {
-    this.fetchData();
-  }
-
-  fetchData = async () => {
+  
+   fetchData = async () => {
     try {
-      const { searchTerm } = this.state;
-      console.log(searchTerm);
+  
+      const URL = `https://pixabay.com/api/?q=${this.state.searchName}&page=${this.state.currentPage}&key=${KEY}&image_type=photo&orientation=horizontal&per_page=${perPage}`;
+      console.log(this.state.searchName);
+      
       const response = await axios.get(URL);
       const data = response.data;
-      // console.log(data);
-      const images = data.hits;
-      // console.log(images);
-      // Оновлення стану компоненти з отриманими зображеннями
-      this.setState({ images });
+      const newImages = data.hits;
+               
+      this.setState(prevState => ({
+        images: [...prevState.images, ...newImages], 
+      }));
+   
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
 
-  handleSearchSubmit = () => {
-    
-    this.fetchData();
+   handleSubmit = searchQuery => {
+    this.setState({
+      searchName: searchQuery,
+      images: [], 
+      currentPage: 1, 
+    }, () => {
+      this.fetchData(); 
+    });
   };
 
-  handleInputChange = (event) => {
-    // Оновлення стану searchTerm при зміні введення
-    this.setState({ searchTerm: event.target.value });
-   console.log(this.state.searchTerm); 
+    loadMore = () => {
+    this.setState(
+      prevState => ({
+        currentPage: prevState.currentPage + 1,
+      }),
+      () => {
+        this.fetchData();
+      }
+    );
   };
+
+
+ 
 
   render() {
-    const { searchTerm } = this.state;
-     const { images } = this.state;
+    const { images} = this.state;
+    
 
     return (
       <>
-        <SearchBar onSubmit={this.handleSearchSubmit} onInputChange={this.handleInputChange} searchTerm={searchTerm} />
+        <SearchBar onSubmit={this.handleSubmit}/>
         <ImageGallery images={images} /> 
-      </>
+        {images.length > 0 && <Button onClick={this.loadMore} />}
+        </>
     );
   }
 }
 
 export default App;
+
+ 
+
+  
+
+ 
+
+ 
