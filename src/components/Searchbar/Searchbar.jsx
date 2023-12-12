@@ -2,7 +2,7 @@ import css from "./style.module.css"
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 
-class SearchBar extends Component {
+class Searchbar extends Component {
   state = {
     searchName: '', 
     inputValue: '',
@@ -46,8 +46,8 @@ class SearchBar extends Component {
   }
 }
 
-SearchBar.propTypes = {
+Searchbar.propTypes = {
   onSubmit: PropTypes.func.isRequired,
 };
 
-export default SearchBar;
+export default Searchbar;

@@ -1,6 +1,6 @@
 import 'style.module.css'
 import axios from "axios";
-import SearchBar from './Searchbar/Searchbar'
+import Searchbar from './Searchbar/Searchbar'
 import  { Component } from 'react';
 import ImageGallery from "./ImageGallery/ImageGallery";
 import Button from "./Button/Button";
@@ -99,7 +99,7 @@ class App extends Component {
     return (
       <>
          <ToastContainer transition={Slide} />
-        <SearchBar onSubmit={this.handleSubmit}/>
+        <Searchbar onSubmit={this.handleSubmit}/>
         <ImageGallery images={images} /> 
         {images.length > 0 && totalPages !== currentPage &&  <Button onClick={this.loadMore} />}
         {loading && <Loader />}
